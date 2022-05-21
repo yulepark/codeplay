@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from calendar import c
+from operator import truediv
+from random import random
 import pygame
 pygame.init()
 
@@ -15,11 +17,26 @@ character = pygame.image.load("pygame/source/character.png")
 character_size = character.get_rect().size
 character_width = character_size[0]
 character_height = character_size[1]
-character_xPos = (screen_width / 2) - (character_width / 2)
+character_xPos = random.randint(0, (screen_width - character_width))  
 character_yPos = screen_height - character_height
 
 to_x = 0 
 to_y = 0
+character_speed = 10
+
+bg = pygame.image.load("pygame/source/enemy.png")
+
+enemy = pygame.image.load("pygame/source/enemy.png")
+enemy_size = enemy.get_rect().size
+enemy_width = enemy_size[0]
+enemy_height = enemy_size[1]
+enemy_xPos = random.randint(0, (screen_width - enemy_width))  
+enemy_yPos = screen_height - enemy_height
+enemy_speed = 10
+
+to_x = 0 
+to_y = 0
+
 
 running = True
 while running:
@@ -42,19 +59,32 @@ while running:
                 to_y = 0
 
     character_xPos += to_x
-    character_yPos += to_y
+    # character_yPos += to_y
 
     if character_xPos < 0:
         character_xPos = 0
     elif character_xPos > screen_width - character_width:
         character_xPos = screen_width - character_width
-    if character_yPos < 0:
-        character_yPos = 0
-    elif character_yPos > screen_height - character_height:
-        character_yPos = screen_height - character_height
+    # if character_yPos < 0:
+    #     character_yPos = 0
+    # elif character_yPos > screen_height - character_height:
+    #     character_yPos = screen_height - character_height
+
+    character_rect = enemy.get_rect()
+    character_rect.left = enemy_xPos
+    character_rect.top = enemy_yPos
+
+    enemy_rect = enemy.get_rect()
+    enemy_rect.left = enemy_xPos
+    enemy_rect.top = enemy_yPos 
+
+    if character_rect.colliderect(enemy_rect):
+        print("감전, 감전")
+        running =False
 
     screen.blit(bg, (0, 0))
     screen.blit(character, (character_xPos, character_yPos))
+    screen.blit(enemy, (enemy_xPos, enemy_yPos))
 
     pygame.display.update()
 
