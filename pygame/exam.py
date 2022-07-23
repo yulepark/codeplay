@@ -14,7 +14,7 @@ while running:
     elif data == "항목":
         print(f"지금까지 입력된 데이터는 {len(character)}개 입니다.")
         hangmok = 0
-        for character_name in "다리", :
+        for character_name in "항목", :
             print(character_name)
 
         while hangmok <= len(character)-1:
